@@ -17,9 +17,24 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
 
-      - name: Start minikube
+      - name: Start minikube (only for the first run)
+        id: start_minikube
         uses: medyagh/setup-minikube@master
 
+      - name: Cache Minikube state for future runs
+        if: steps.start_minikube.outputs.first_run == 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ runner.user.dir }}/minikube
+          key: minikube-state
+
+      - name: Load Minikube state for subsequent runs
+        if: steps.start_minikube.outputs.first_run == 'false'
+        uses: actions/cache@v2
+        with:
+          path: ${{ runner.user.dir }}/minikube
+          key: minikube-state
+          
       - name: Run kubectl
         run: |
           minikube kubectl -- get pods
