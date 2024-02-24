@@ -21,28 +21,20 @@ jobs:
         id: start_minikube
         uses: medyagh/setup-minikube@master
 
-      - name: Cache Minikube state for future runs
-        if: steps.start_minikube.outputs.first_run == 'true'
-        uses: actions/cache@v2
-        with:
-          path: ${{ runner.user.dir }}/minikube
-          key: minikube-state
-
-      - name: Load Minikube state for subsequent runs
-        if: steps.start_minikube.outputs.first_run == 'false'
-        uses: actions/cache@v2
-        with:
-          path: ${{ runner.user.dir }}/minikube
-          key: minikube-state
-          
       - name: Run kubectl
         run: |
-          minikube kubectl -- get pods
+          minikube kubectl -- get pods --all-namespaces
 
       - name: Apply manifest
         run: |
           kubectl apply -f ./manifest/nodejs-k8s.yaml
-          kubectl get events
+      
+      - name: Wait for rollout
+        run: |     
+          while [[ "$(kubectl rollout status deployment/node-app -n default -w)" == *"Waiting for rollout to finish"* ]]; do
+            kubectl get events
+            sleep 5
+          done
 
       - name: Check resources
         run: |
