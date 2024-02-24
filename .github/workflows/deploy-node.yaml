@@ -47,7 +47,7 @@ jobs:
 
       - name: Check resources
         run: |
-          minikube kubectl -- desribe deployment/node-app
+          minikube kubectl -- describe deployment/node-app
           minikube kubectl -- get svc
 
       - name: Test service URLs
