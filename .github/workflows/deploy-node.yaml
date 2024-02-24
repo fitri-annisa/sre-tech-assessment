@@ -1,0 +1,46 @@
+name: Deploy Node App to Minikube
+
+on:
+  workflow_run:
+    workflows: [Test and Build Docker Images]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+
+      - name: Set up Minikube
+        uses: kube-actions/setup-minikube@v1
+        with:
+          minikube-version: latest
+          kubernetes-version: latest
+          memory: 4096
+          disk-size: 40g
+          driver: docker
+
+      - name: Start Minikube
+        run: minikube start --wait=false
+
+      - name: Configure kubectl
+        run: |
+          minikube kubectl -- get pods
+
+      - name: Apply manifest
+        run: |
+          kubectl apply -f /manifest/nodejs-k8s.yaml
+      
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/node-app
+
+      - name: Test deployment
+        run: |
+          curl $(minikube service node-service --url)
