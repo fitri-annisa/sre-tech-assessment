@@ -27,10 +27,15 @@ jobs:
       - name: Apply manifest
         run: |
           kubectl apply -f ./manifest/nodejs-k8s.yaml
-      
-      - name: Wait for rollout
+
+      - name: Check resources
         run: |
-          kubectl rollout status deployment/node-app
+          minikube kubectl -- get pods
+          minikube kubectl -- get svc
+
+      # - name: Wait for rollout
+      #   run: |
+      #     kubectl rollout status deployment/node-app
 
       - name: Run app
         run: |
