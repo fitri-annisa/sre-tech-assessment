@@ -39,6 +39,7 @@ jobs:
               break
             else
               echo "Not all pods are running. Waiting..."
+              kubectl get pods
               sleep 10
             fi
           done
