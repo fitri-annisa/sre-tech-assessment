@@ -31,7 +31,7 @@ jobs:
       
       - name: Wait for rollout
         run: |     
-          kubectl get events && kubectl rollout status deployment/node-app
+          kubectl rollout restart deployment/node-app && kubectl get events
 
       - name: Check resources
         run: |
