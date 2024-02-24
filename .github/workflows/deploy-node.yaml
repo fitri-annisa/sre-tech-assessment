@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -31,10 +31,7 @@ jobs:
       
       - name: Wait for rollout
         run: |     
-          while [[ "$(kubectl rollout status deployment/node-app -n default -w)" == *"Waiting for rollout to finish"* ]]; do
-            kubectl get events
-            sleep 5
-          done
+          kubectl get events && kubectl rollout status deployment/node-app
 
       - name: Check resources
         run: |
