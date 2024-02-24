@@ -26,7 +26,7 @@ jobs:
 
       - name: Apply manifest
         run: |
-          kubectl apply -f ./manifest/nodejs-k8s.yaml
+          kubectl apply -f ./manifest/nodejs-k8s.yaml -n default
       
       - name: Review logs
         run: |
