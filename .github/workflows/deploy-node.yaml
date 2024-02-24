@@ -17,17 +17,8 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
 
-      - name: Set up Minikube
-        uses: kube-actions/setup-minikube@v1
-        with:
-          minikube-version: latest
-          kubernetes-version: latest
-          memory: 4096
-          disk-size: 40g
-          driver: docker
-
-      - name: Start Minikube
-        run: minikube start --wait=false
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
 
       - name: Configure kubectl
         run: |
