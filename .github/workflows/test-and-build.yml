@@ -7,7 +7,7 @@ on:
 
 jobs:
   golang-test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
           go test ./...
 
   nodejs-test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
 
   build-and-push:
     needs: [golang-test, nodejs-test]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
