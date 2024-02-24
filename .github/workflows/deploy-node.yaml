@@ -26,20 +26,17 @@ jobs:
 
       - name: Apply manifest
         run: |
-          kubectl apply -f ./manifest/nodejs-k8s.yaml -n default
-      
-      - name: Review logs
-        run: |
-          kubectl logs -l app=node-app
+          kubectl apply -f ./manifest/nodejs-k8s.yaml
+          kubectl get events
 
       - name: Wait for rollout
         run: |
-          kubectl rollout status deployment/node-app -n default
+          kubectl rollout status deployment/node-app
 
       - name: Check resources
         run: |
-          minikube kubectl -- get pods -n default
-          minikube kubectl -- get svc -n default
+          minikube kubectl -- get pods
+          minikube kubectl -- get svc
 
       - name: Test service URLs
         run: |
