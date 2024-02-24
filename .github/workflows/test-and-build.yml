@@ -46,11 +46,6 @@ jobs:
   build-and-push:
     needs: [golang-test, nodejs-test]
     runs-on: self-hosted
-    if: |
-      github.event_name == 'push' &&
-      paths:
-        - 'golang/**'
-        - 'nodejs/**'
     steps:
       - name: Check out code
         uses: actions/checkout@v2
