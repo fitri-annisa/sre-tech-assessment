@@ -26,7 +26,7 @@ jobs:
 
       - name: Apply manifest
         run: |
-          kubectl apply -f nodejs-k8s.yaml
+          kubectl apply -f ./manifest/nodejs-k8s.yaml
       
       - name: Wait for rollout
         run: |
