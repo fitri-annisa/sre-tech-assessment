@@ -40,7 +40,8 @@ jobs:
             else
               echo "Not all pods are running. Waiting..."
               kubectl get pods
-              sleep 10
+              kubectl get events
+              sleep 20
             fi
           done
 
