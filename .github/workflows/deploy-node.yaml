@@ -20,18 +20,18 @@ jobs:
       - name: Start minikube
         uses: medyagh/setup-minikube@master
 
-      - name: Configure kubectl
+      - name: Run kubectl
         run: |
           minikube kubectl -- get pods
 
       - name: Apply manifest
         run: |
-          kubectl apply -f /manifest/nodejs-k8s.yaml
+          kubectl apply -f nodejs-k8s.yaml
       
       - name: Wait for rollout
         run: |
           kubectl rollout status deployment/node-app
 
-      - name: Test deployment
+      - name: Run app
         run: |
           curl $(minikube service node-service --url)
