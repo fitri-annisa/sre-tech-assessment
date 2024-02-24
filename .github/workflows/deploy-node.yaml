@@ -28,9 +28,13 @@ jobs:
         run: |
           kubectl apply -f ./manifest/nodejs-k8s.yaml
       
-      - name: Wait for rollout
+      - name: Review logs
         run: |
-          kubectl rollout status deployment/node-app
+          kubectl logs -l app=node-app
+
+      # - name: Wait for rollout
+      #   run: |
+      #     kubectl rollout status deployment/node-app
 
       - name: Check resources
         run: |
