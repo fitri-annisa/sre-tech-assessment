@@ -17,7 +17,7 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
 
-      - name: Start minikube (only for the first run)
+      - name: Start minikube
         id: start_minikube
         uses: medyagh/setup-minikube@master
 
@@ -29,13 +29,23 @@ jobs:
         run: |
           kubectl apply -f ./manifest/nodejs-k8s.yaml
       
-      - name: Wait for rollout
-        run: |     
-          kubectl rollout restart deployment/node-app && kubectl get events
+      - name: Wait for pods to be running
+        run: |
+          while true; do
+            RUNNING=$(kubectl get pods --field-selector=status.phase=Running --no-headers | wc -l)
+            TOTAL=$(kubectl get pods --no-headers | wc -l)
+            if [ "$RUNNING" -eq "$TOTAL" ]; then
+              echo "All pods are running."
+              break
+            else
+              echo "Not all pods are running. Waiting..."
+              sleep 10
+            fi
+          done
 
       - name: Check resources
         run: |
-          minikube kubectl -- get pods
+          minikube kubectl -- desribe deployment/node-app
           minikube kubectl -- get svc
 
       - name: Test service URLs
