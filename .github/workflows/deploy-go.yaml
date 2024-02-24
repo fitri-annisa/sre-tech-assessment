@@ -1,0 +1,55 @@
+name: Deploy Go App to Minikube
+
+on:
+  workflow_run:
+    workflows: [Test and Build Docker Images]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v1
+
+      - name: Start minikube
+        id: start_minikube
+        uses: medyagh/setup-minikube@master
+
+      - name: Run kubectl
+        run: |
+          minikube kubectl -- get pods --all-namespaces
+
+      - name: Apply manifest
+        run: |
+          kubectl apply -f ./manifest/golang-k8s.yaml
+      
+      - name: Wait for pods to be running
+        run: |
+          while true; do
+            RUNNING=$(kubectl get pods --field-selector=status.phase=Running --no-headers | wc -l)
+            TOTAL=$(kubectl get pods --no-headers | wc -l)
+            if [ "$RUNNING" -eq "$TOTAL" ]; then
+              echo "All pods are running."
+              break
+            else
+              echo "Not all pods are running. Waiting..."
+              kubectl get pods
+              kubectl get events
+              sleep 20
+            fi
+          done
+
+      - name: Check resources
+        run: |
+          minikube kubectl -- desribe deployment/go-app
+          minikube kubectl -- get svc
+
+      - name: Test service URLs
+        run: |
+          curl $(minikube service go-service --url)
