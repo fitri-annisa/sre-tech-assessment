@@ -15,7 +15,7 @@ spec:
       containers:
         - name: node-app
           image: fitrinshl/sre-tech-assessment:nodejs
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           ports:
             - containerPort: 3000
           resources:

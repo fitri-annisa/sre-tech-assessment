@@ -15,6 +15,7 @@ spec:
       containers:
         - name: go-app
           image: fitrinshl/sre-tech-assessment:golang
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
           resources:
