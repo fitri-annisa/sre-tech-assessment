@@ -1,6 +1,9 @@
 name: Deploy Go App to Minikube
 
 on:
+  push:
+    paths:
+      - 'golang/**'
   workflow_run:
     workflows: [Test and Build Docker Images]
     types:

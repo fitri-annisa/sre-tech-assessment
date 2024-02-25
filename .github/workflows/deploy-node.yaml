@@ -1,6 +1,9 @@
 name: Deploy Node App to Minikube
 
 on:
+  push:
+    paths:
+      - 'nodejs/**'
   workflow_run:
     workflows: [Test and Build Docker Images]
     types:
