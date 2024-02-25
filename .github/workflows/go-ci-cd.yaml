@@ -52,6 +52,7 @@ jobs:
           platforms: linux/arm64,linux/amd64
 
   deploy:
+    needs: [build-and-push]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
