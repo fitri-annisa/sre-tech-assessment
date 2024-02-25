@@ -1,4 +1,4 @@
-name: CI/CD for Go
+name: CI/CD for Go App
 
 on:
   push:
