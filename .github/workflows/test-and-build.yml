@@ -67,7 +67,7 @@ jobs:
         with:
           context: ./golang
           push: true
-          tags: fitrinshl/sre-tech-assessment:golang-${{ github.sha }}
+          tags: fitrinshl/sre-tech-assessment:golang
           platforms: linux/arm64,linux/amd64
 
       - name: Build and push Node image
@@ -75,5 +75,5 @@ jobs:
         with:
           context: ./nodejs
           push: true
-          tags: fitrinshl/sre-tech-assessment:nodejs-${{ github.sha }}
+          tags: fitrinshl/sre-tech-assessment:nodejs
           platforms: linux/arm64,linux/amd64
