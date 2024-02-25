@@ -6,6 +6,9 @@ on:
     - master
     paths:
     - 'nodejs/**'
+  workflow_dispatch:
+    tags:
+      description: 'Manual trigger'
 
 jobs:
   code-test:
