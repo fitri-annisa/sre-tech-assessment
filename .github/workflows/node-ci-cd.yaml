@@ -92,7 +92,7 @@ jobs:
         run: |
           while true; do
             RUNNING=$(kubectl get pods --field-selector=status.phase=Running --no-headers | wc -l)
-            TOTAL=$(kubectl get pods --no-headers | wc -l)
+            TOTAL=$(kubectl get pods --no-headers | grep -v 'test-connection' | wc -l)
             if [ "$RUNNING" -eq "$TOTAL" ]; then
               echo "All pods are running."
               break
@@ -106,7 +106,7 @@ jobs:
 
       - name: Check resources
         run: |
-          minikube kubectl -- describe deployment/node-app
+          minikube kubectl -- describe deployment/
           minikube kubectl -- get svc
 
       - name: Test service URLs
