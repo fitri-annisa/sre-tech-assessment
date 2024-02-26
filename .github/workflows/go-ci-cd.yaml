@@ -74,7 +74,7 @@ jobs:
         uses: azure/k8s-bake@v2
         with:
           renderEngine: 'helm'
-          helmChart: './charts/nodejs/'
+          helmChart: './charts/golang/'
         id: bake
 
       - name: Apply manifest
