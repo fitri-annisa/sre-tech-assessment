@@ -70,18 +70,9 @@ jobs:
         run: |
           minikube kubectl -- get pods --all-namespaces
 
-      - name: Render Helm chart
-        uses: azure/k8s-bake@v2
-        with:
-          renderEngine: 'helm'
-          helmChart: './charts/golang/'
-        id: bake
-
-      - name: Apply manifest
-        uses: Azure/k8s-deploy@v1.2
-        with:
-          action: deploy
-          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+      - name: Deploy to K8s
+        run : |
+          helm upgrade --install go-app -f node-values.yaml
       
       - name: Wait for pods to be running
         run: |
@@ -101,7 +92,7 @@ jobs:
 
       - name: Check resources
         run: |
-          minikube kubectl -- describe deployment/go-app
+          minikube kubectl -- get deployment
           minikube kubectl -- get svc
 
       - name: Test service URLs
