@@ -15,7 +15,7 @@ This repository contains code and resources for the SRE Tech Assessment by Fitri
 - `nodejs`: Contains a simple "Hello world" Node.js application.
 
 ## Tech Stack
-- [microk8s](https://microk8s.io/) deployed on Virtual Private Server
+- [microk8s](https://microk8s.io/) installed on Virtual Private Server
 - [Helm for Kubernetes Manifest](https://helm.sh/)
 - [Github Actions for CI/CD](https://docs.github.com/en/actions)
 - [Docker Hub](https://hub.docker.com/)
