@@ -8,7 +8,6 @@ image:
   repository: fitrinshl/node-sre-test
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "b9250e5da808b4c483e9b01f7e88efd148f45d9e"
 
 imagePullSecrets: []
 nameOverride: ""
