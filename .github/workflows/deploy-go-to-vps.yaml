@@ -61,6 +61,11 @@ jobs:
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
+      
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: 'v3.8.0'
 
       - uses: azure/k8s-bake@v2
         with:
