@@ -43,8 +43,8 @@ jobs:
 
       - name: Build and push Go image
         run: |
-          docker build -t fitrinshl/go-hello-world:${{ github.sha }} ./golang
-          docker push fitrinshl/go-hello-world:${{ github.sha }}
+          docker build -t fitrinshl/go-hello-world:$latest ./golang
+          docker push fitrinshl/go-hello-world:$latest
 
   deploy:
     needs: [build-and-push]
@@ -73,5 +73,3 @@ jobs:
         uses: Azure/k8s-deploy@v1.2
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
-          image: |
-            docker.io/fitrinshl/go-hello-world:${{ github.sha }}
