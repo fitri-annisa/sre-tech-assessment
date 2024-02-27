@@ -11,9 +11,8 @@ This repository contains code and resources for the SRE Tech Assessment by Fitri
 - `.github`: Contains GitHub Workflow configuration for CI/CD. This includes YAML files defining the actions to be performed for each step of the CI/CD process.
 - `go-helm-chart`: Contains the Helm chart for deploying your Golang application.
 - `golang`: Contains a simple "Hello world" Golang application.
-- `manifest`: Contains Kubernetes manifest files. These files define the desired state of your Kubernetes resources, such as deployments, services, and ingress rules.
 - `node-helm-chart`: Contains the Helm chart for deploying your Node.js application.
-- `nodejs`: Contains a simple "Hello world" Node.js application. This directory is where your Node.js application's source code resides.
+- `nodejs`: Contains a simple "Hello world" Node.js application.
 
 ## Tech Stack
 - [microk8s](https://microk8s.io/) deployed on Virtual Private Server
