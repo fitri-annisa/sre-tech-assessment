@@ -1,11 +1,11 @@
-name: CI/CD for Go App
+name: CI/CD for NodeJS App
 
 on:
   push:
     branches:
     - master
     paths:
-    - 'golang/**'
+    - 'nodejs/**'
   workflow_dispatch:
 
 jobs:
@@ -15,15 +15,20 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Go
-        uses: actions/setup-go@v2
+      - name: Use Node.js 21.6.2
+        uses: actions/setup-node@v2
         with:
-          go-version: 1.22.0
+          node-version: 21.6.2
 
-      - name: Run Go tests
+      - name: Install dependencies
         run: |
-          cd golang
-          go test ./...
+          cd nodejs
+          npm ci
+          
+      - name: Run Node.js tests
+        run: |
+          cd nodejs
+          npm test
 
   build-and-push:
     needs: [code-test]
@@ -41,13 +46,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push Go image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./golang
-          push: true
-          tags: fitrinshl/sre-tech-assessment:golang
-          platforms: linux/arm64,linux/amd64
+      - name: Build and push Node image
+        run: |
+          docker build -t fitrinshl/node-hello-world:${{ github.sha }} ./nodejs
+          docker push fitrinshl/node-hello-world:${{ github.sha }}
 
   deploy:
     needs: [build-and-push]
@@ -69,11 +71,12 @@ jobs:
         uses: azure/k8s-bake@v2
         with:
           renderEngine: 'helm'
-          helmChart: './go-helm-chart/'
+          helmChart: './node-helm-chart/'
         id: bake
 
       - name: Provision k8s resources
         uses: Azure/k8s-deploy@v1.2
         with:
-          action: deploy
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          images: |
+            docker.io/fitrinshl/node-hello-world:${{ github.sha }}
