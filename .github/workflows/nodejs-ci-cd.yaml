@@ -66,6 +66,12 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
+          
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Render Helm chart
         uses: azure/k8s-bake@v2
@@ -79,4 +85,4 @@ jobs:
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           images: |
-            docker.io/fitrinshl/node-hello-world:${{ github.sha }}
+            fitrinshl/node-sre-test:${{ github.sha }}
