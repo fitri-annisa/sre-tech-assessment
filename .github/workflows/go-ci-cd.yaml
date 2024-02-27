@@ -66,13 +66,26 @@ jobs:
         id: start_minikube
         uses: medyagh/setup-minikube@master
 
-      - name: Run kubectl
-        run: |
-          minikube kubectl -- get pods --all-namespaces
+      # Testing kubectl
+      # - name: Run kubectl
+      #   run: |
+      #     minikube kubectl -- get pods --all-namespaces
 
-      - name: Apply manifest
-        run: |
-          kubectl apply -f ./manifest/golang-k8s.yaml
+      # - name: Apply k8s manifest
+      #   run: |
+      #     kubectl apply -f ./manifest/golang-k8s.yaml
+
+      # Render and Upgrade Helm
+      - uses: azure/k8s-bake@v2
+        with:
+          renderEngine: 'helm'
+          helmChart: './golang-helm-chart/'
+        id: bake
+
+      - uses: Azure/k8s-deploy@v1.2
+        with:
+          action: deploy
+          manifests: ${{ steps.bake.outputs.manifestsBundle }}
       
       - name: Wait for pods to be running
         run: |
@@ -92,9 +105,11 @@ jobs:
 
       - name: Check resources
         run: |
-          minikube kubectl -- describe deployment/go-app
+          minikube kubectl -- get deployment
           minikube kubectl -- get svc
-
-      - name: Test service URLs
+          minikube kubectl -- get ingress
+      
+      - name: Test service URLs if use manifest
         run: |
-          curl $(minikube service go-service --url)
+          curl $(minikube service go-app-by-helm --url)
+        # curl $(minikube service go-service --url)
