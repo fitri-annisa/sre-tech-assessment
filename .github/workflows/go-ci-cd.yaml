@@ -79,7 +79,7 @@ jobs:
       - uses: azure/k8s-bake@v2
         with:
           renderEngine: 'helm'
-          helmChart: './golang-helm-chart/'
+          helmChart: './go-helm-chart/'
         id: bake
 
       - uses: Azure/k8s-deploy@v1.2
