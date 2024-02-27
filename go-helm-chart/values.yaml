@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: fitrinshl/go-sre-test
+  repository: fitrinshl/sre-tech-assessment
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "golang"
 
 imagePullSecrets: []
 nameOverride: ""

@@ -5,10 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: fitrinshl/node-sre-test
-  pullPolicy: Always
+  repository: fitrinshl/sre-tech-assessment
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "nodejs"
 
 imagePullSecrets: []
 nameOverride: ""

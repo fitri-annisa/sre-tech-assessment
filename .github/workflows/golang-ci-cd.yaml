@@ -42,9 +42,12 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and push Go image
-        run: |
-          docker build -t fitrinshl/go-hello-world:$latest ./golang
-          docker push fitrinshl/go-hello-world:$latest
+        uses: docker/build-push-action@v2
+        with:
+          context: ./golang
+          push: true
+          tags: fitrinshl/sre-tech-assessment:golang
+          platforms: linux/arm64,linux/amd64
 
   deploy:
     needs: [build-and-push]
