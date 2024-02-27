@@ -10,7 +10,7 @@ on:
 
 jobs:
   code-test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -32,13 +32,10 @@ jobs:
 
   build-and-push:
     needs: [code-test]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -59,7 +56,7 @@ jobs:
 
   deploy:
     needs: [build-and-push]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -67,18 +64,21 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v1
       
-      - name: Install Helm
-        uses: azure/setup-helm@v1
+      - name: Set Kubectl Context
+        uses: azure/k8s-set-context@v1
         with:
-          version: 'v3.8.0'
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
 
-      - uses: azure/k8s-bake@v2
+      - name: Render Helm chart
+        uses: azure/k8s-bake@v2
         with:
           renderEngine: 'helm'
           helmChart: './node-helm-chart/'
         id: bake
 
-      - uses: Azure/k8s-deploy@v1.2
+      - name: Provision k8s resources
+        uses: Azure/k8s-deploy@v1.2
         with:
           action: deploy
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
