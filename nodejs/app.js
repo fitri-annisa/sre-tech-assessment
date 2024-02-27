@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello, world! This is Fitri from NodeJS App that deployed on microk8s.');
+  res.send('Hello, world! This is Fitri.');
 });
 
 app.listen(port, () => {
