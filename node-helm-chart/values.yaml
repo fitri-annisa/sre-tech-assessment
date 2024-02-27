@@ -40,7 +40,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 3000
   targetPort: 80
 
@@ -51,7 +51,7 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   }
   hosts:
-    - host: node-fitri-annisa.my.id
+    - host: node.fitri-annisa.my.id
       paths:
         - path: /
           pathType: ImplementationSpecific
