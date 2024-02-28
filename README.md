@@ -9,9 +9,9 @@ This repository contains code and resources for the SRE Tech Assessment by Fitri
 
 ## Contents
 - `.github`: Contains GitHub Workflow configuration for CI/CD. This includes YAML files defining the actions to be performed for each step of the CI/CD process.
-- `go-helm-chart`: Contains the Helm chart for deploying your Golang application.
+- `go-helm-chart`: Contains the Helm chart for deploying Golang application to Kubernetes.
 - `golang`: Contains a simple "Hello world" Golang application.
-- `node-helm-chart`: Contains the Helm chart for deploying your Node.js application.
+- `node-helm-chart`: Contains the Helm chart for deploying Node.js application to Kubernetes.
 - `nodejs`: Contains a simple "Hello world" Node.js application.
 
 ## Tech Stack
